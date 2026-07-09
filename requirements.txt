@@ -1,0 +1,27 @@
+# Core LangGraph / LangChain
+langgraph==0.2.28
+langchain==0.2.16
+langchain-openai==0.1.23
+langchain-core==0.2.38
+
+# OpenAI
+openai==1.40.0
+
+# Pydantic
+pydantic==2.8.2
+pydantic-settings==2.4.0
+
+# Streamlit
+streamlit==1.37.1
+
+# PDF / Document parsing
+pypdf==4.3.1
+python-docx==1.1.2
+
+# Utilities
+python-dotenv==1.0.1
+tenacity==8.5.0
+loguru==0.7.2
+
+# Dev / Testing
+pytest==8.3.2

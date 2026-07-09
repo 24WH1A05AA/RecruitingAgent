@@ -1,0 +1,3 @@
+Senior ML Engineer — TechVest
+We are looking for a Python expert with strong machine learning skills.
+Required: Python, PyTorch, scikit-learn. Min 3 years experience.
