@@ -124,7 +124,7 @@ class TestProposeInterview:
             "profile_dict": sample_profile.model_dump(),
             "slot_dict": first_slot.model_dump(mode="json"),
             "job_title": "Senior ML Engineer",
-            "approved_by": "Meera Nair",
+            "approved_by": "Lalitha",
             "human_approved": False,
         })
         assert result["is_error"] is True
@@ -136,7 +136,7 @@ class TestProposeInterview:
             "profile_dict": sample_profile.model_dump(),
             "slot_dict": first_slot.model_dump(mode="json"),
             "job_title": "Senior ML Engineer",
-            "approved_by": "Meera Nair",
+            "approved_by": "Lalitha",
             "human_approved": True,
         })
         assert result["is_error"] is False
@@ -147,14 +147,14 @@ class TestProposeInterview:
             "profile_dict": sample_profile.model_dump(),
             "slot_dict": first_slot.model_dump(mode="json"),
             "job_title": "Senior ML Engineer",
-            "approved_by": "Meera Nair",
+            "approved_by": "Lalitha",
             "human_approved": True,
         })
         proposal = InterviewProposal(
             **{k: v for k, v in result.items() if k not in ("is_error", "confirmation_text")}
         )
         assert proposal.candidate_name == "Priya Sharma"
-        assert proposal.approved_by == "Meera Nair"
+        assert proposal.approved_by == "Lalitha"
         assert proposal.job_title == "Senior ML Engineer"
 
     def test_confirmation_text_present(self, sample_profile, availability_slots):
@@ -163,12 +163,12 @@ class TestProposeInterview:
             "profile_dict": sample_profile.model_dump(),
             "slot_dict": first_slot.model_dump(mode="json"),
             "job_title": "Senior ML Engineer",
-            "approved_by": "Meera Nair",
+            "approved_by": "Lalitha",
             "human_approved": True,
         })
         assert "confirmation_text" in result
         assert "Priya Sharma" in result["confirmation_text"]
-        assert "Meera Nair" in result["confirmation_text"]
+        assert "Lalitha" in result["confirmation_text"]
 
     def test_blocked_with_empty_approver(self, sample_profile, availability_slots):
         first_slot = InterviewSlot(**availability_slots[0])
@@ -190,7 +190,7 @@ class TestProposeInterview:
             "profile_dict": sample_profile.model_dump(),
             "slot_dict": first_slot.model_dump(mode="json"),
             "job_title": "Senior ML Engineer",
-            "approved_by": "Meera Nair",
+            "approved_by": "Lalitha",
             "human_approved": True,
         })
         assert result["is_error"] is False

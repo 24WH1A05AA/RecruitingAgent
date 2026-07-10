@@ -108,7 +108,7 @@ def propose_interview(
     ...     "profile_dict": profile.model_dump(),
     ...     "slot_dict": slot.model_dump(mode="json"),
     ...     "job_title": "Senior ML Engineer",
-    ...     "approved_by": "Meera Nair",
+    ...     "approved_by": "Lalitha",
     ...     "human_approved": True,
     ... })
     >>> proposal = InterviewProposal(**result)
