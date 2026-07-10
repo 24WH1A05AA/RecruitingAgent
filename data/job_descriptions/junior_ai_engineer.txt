@@ -1,0 +1,17 @@
+Junior AI Engineer — TechVest
+
+Overview:
+We are looking for a Junior AI Engineer to join our growing AI/ML team. In this role, you will assist in developing, optimizing, and deploying machine learning models and AI pipelines. You will work closely with senior engineers to implement data pipelines, train models, and package AI solutions as APIs.
+
+Required Qualifications:
+- 0 to 2 years of experience in software development or machine learning.
+- Strong proficiency in Python and standard programming practices.
+- Familiarity with basic machine learning frameworks (scikit-learn, NumPy, pandas) and deep learning libraries (PyTorch or TensorFlow).
+- Basic understanding of NLP or Computer Vision concepts.
+- Familiarity with version control using Git.
+- Good communication skills and eagerness to learn.
+
+Preferred Qualifications:
+- Degree in Computer Science, Data Science, or a related quantitative field.
+- Experience building REST APIs (FastAPI, Flask) for model serving.
+- Experience with Docker containers.

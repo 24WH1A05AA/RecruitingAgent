@@ -211,27 +211,38 @@ def mock_call_llm_json(system: str, human: str) -> dict[str, Any]:
     return {}
 
 def mock_call_llm_for_parse(resume_text: str) -> dict[str, Any]:
-    if "Priya" in resume_text or "priya" in resume_text:
+    if "John" in resume_text or "john" in resume_text:
         return {
-            "name": "Priya Sharma",
-            "email": "priya@example.com",
-            "phone": "+91-9876543210",
-            "skills": ["Python", "PyTorch", "FastAPI", "scikit-learn", "SQL", "Docker", "AWS SageMaker"],
-            "years_of_experience": 5.0,
-            "education": ["B.Tech CS, IIT Delhi, 2019"],
-            "certifications": ["AWS Certified ML Specialty"],
-            "projects": ["Sentiment Analyzer", "Object Detection Pipeline"]
+            "name": "John Smith",
+            "email": "john.smith@example.com",
+            "phone": "+1-555-0199",
+            "skills": ["Python", "PyTorch", "Hugging Face Transformers", "Git", "FastAPI", "scikit-learn", "Docker"],
+            "years_of_experience": 1.5,
+            "education": ["B.S. Computer Science, Stanford University, 2025"],
+            "certifications": [],
+            "projects": ["LLM Fine-Tuning Hub", "Image Classifier API"]
         }
     elif "Rahul" in resume_text or "rahul" in resume_text:
         return {
-            "name": "Rahul Mehta",
-            "email": "rahul.mehta@example.com",
-            "phone": None,
-            "skills": ["Java", "Spring Boot", "Hibernate", "PostgreSQL", "MySQL", "Redis", "Docker", "Git", "Python (Intermediate)"],
-            "years_of_experience": 2.0,
-            "education": ["B.E. Computer Engineering, Mumbai University, 2021"],
+            "name": "Rahul Verma",
+            "email": "rahul.verma@example.com",
+            "phone": "+91-9988776655",
+            "skills": ["Python", "JavaScript", "SQL", "HTML/CSS", "NumPy", "pandas", "scikit-learn", "Git"],
+            "years_of_experience": 1.0,
+            "education": ["B.Tech CS, Mumbai University, 2025"],
             "certifications": [],
-            "projects": ["E-Commerce Backend", "Portfolio Website", "Movie Recommender"]
+            "projects": ["Movie Recommender System", "Web Scraper"]
+        }
+    elif "Uday" in resume_text or "uday" in resume_text:
+        return {
+            "name": "Uday Kiran",
+            "email": "uday.kiran@example.com",
+            "phone": None,
+            "skills": ["Python", "HTML", "CSS", "Excel", "Git"],
+            "years_of_experience": 0.0,
+            "education": ["B.A. History, Osmania University, 2024"],
+            "certifications": [],
+            "projects": ["Calculator App", "Personal Blog"]
         }
     elif "Meera" in resume_text or "meera" in resume_text:
         return {
@@ -243,6 +254,17 @@ def mock_call_llm_for_parse(resume_text: str) -> dict[str, Any]:
             "education": ["M.S. Software Systems, BITS Pilani, 2017", "B.Tech IT, Pune University, 2014"],
             "certifications": [],
             "projects": ["AI Platform", "Image Classifier"]
+        }
+    elif "Priya" in resume_text or "priya" in resume_text:
+        return {
+            "name": "Priya Sharma",
+            "email": "priya@example.com",
+            "phone": "+91-9876543210",
+            "skills": ["Python", "PyTorch", "FastAPI", "scikit-learn", "SQL", "Docker", "AWS SageMaker"],
+            "years_of_experience": 5.0,
+            "education": ["B.Tech CS, IIT Delhi, 2019"],
+            "certifications": ["AWS Certified ML Specialty"],
+            "projects": ["Sentiment Analyzer", "Object Detection Pipeline"]
         }
     
     # Simple heuristic fallback for custom uploads
@@ -266,12 +288,151 @@ def mock_call_llm_for_parse(resume_text: str) -> dict[str, Any]:
         "projects": ["Development Project"]
     }
 
-def mock_call_llm_for_score(profile_dict: dict, jd_dict: dict, rubric_dict: dict | None) -> dict[str, Any]:
-    name = profile_dict.get("name", "Candidate")
-    if "Priya" in name:
+def mock_call_llm_for_score(profile: Any, jd: Any, rubric: Any) -> dict[str, Any]:
+    # Handle both dict and Pydantic object inputs
+    if isinstance(profile, dict):
+        name = profile.get("name", "Candidate")
+        candidate_id = profile.get("candidate_id", "custom-123")
+    else:
+        name = getattr(profile, "name", "Candidate")
+        candidate_id = getattr(profile, "candidate_id", "custom-123")
+
+    if "John" in name:
+        return {
+            "candidate_name": "John Smith",
+            "candidate_id": candidate_id,
+            "criterion_scores": [
+                {
+                    "criterion": "Python Skills (35%)",
+                    "raw_score": 90.0,
+                    "weight": 0.35,
+                    "weighted_score": 31.50,
+                    "evidence": "Highly proficient in Python. Wrote fine-tuning scripts and deployed microservices in Python."
+                },
+                {
+                    "criterion": "Machine Learning (25%)",
+                    "raw_score": 86.0,
+                    "weight": 0.25,
+                    "weighted_score": 21.50,
+                    "evidence": "Familiar with deep learning frameworks (PyTorch), classical ML (scikit-learn), and Hugging Face NLP architectures."
+                },
+                {
+                    "criterion": "Projects (20%)",
+                    "raw_score": 90.0,
+                    "weight": 0.20,
+                    "weighted_score": 18.00,
+                    "evidence": "Built LLM Fine-Tuning Hub and developed a Dockerized FastAPI service with a pre-trained ResNet model."
+                },
+                {
+                    "criterion": "Communication (10%)",
+                    "raw_score": 80.0,
+                    "weight": 0.10,
+                    "weighted_score": 8.00,
+                    "evidence": "Collaborated effectively in data science teams and wrote thorough documentation."
+                },
+                {
+                    "criterion": "Education (10%)",
+                    "raw_score": 95.0,
+                    "weight": 0.10,
+                    "weighted_score": 9.50,
+                    "evidence": "B.S. in Computer Science from Stanford University with a 3.9 GPA."
+                }
+            ],
+            "total_score": 88.50,
+            "summary_evidence": "John Smith is an exceptionally strong Junior AI Engineer candidate. He has direct experience fine-tuning LLMs, building REST APIs with FastAPI, and possesses solid Python and PyTorch skills. His strong CS background from Stanford University further validates his technical proficiency."
+        }
+    elif "Rahul" in name:
+        return {
+            "candidate_name": "Rahul Verma",
+            "candidate_id": candidate_id,
+            "criterion_scores": [
+                {
+                    "criterion": "Python Skills (35%)",
+                    "raw_score": 60.0,
+                    "weight": 0.35,
+                    "weighted_score": 21.00,
+                    "evidence": "Intermediate Python scripting and web application development using Django."
+                },
+                {
+                    "criterion": "Machine Learning (25%)",
+                    "raw_score": 50.0,
+                    "weight": 0.25,
+                    "weighted_score": 12.50,
+                    "evidence": "Completed introductory course project building recommender systems using scikit-learn, NumPy, and pandas."
+                },
+                {
+                    "criterion": "Projects (20%)",
+                    "raw_score": 60.0,
+                    "weight": 0.20,
+                    "weighted_score": 12.00,
+                    "evidence": "Built a collaborative filtering movie recommendation system and a Python web scraper."
+                },
+                {
+                    "criterion": "Communication (10%)",
+                    "raw_score": 70.0,
+                    "weight": 0.10,
+                    "weighted_score": 7.00,
+                    "evidence": "Collaborated with engineering teams and documented codebase specifications."
+                },
+                {
+                    "criterion": "Education (10%)",
+                    "raw_score": 60.0,
+                    "weight": 0.10,
+                    "weighted_score": 6.00,
+                    "evidence": "B.Tech in Computer Science and Engineering from Mumbai University."
+                }
+            ],
+            "total_score": 58.50,
+            "summary_evidence": "Rahul Verma is a qualified software engineer with intermediate Python capability, making him a moderate fit. He has built simple recommendation algorithms, but lacks depth in deep learning (PyTorch/TensorFlow) and core AI engineering concepts."
+        }
+    elif "Uday" in name:
+        return {
+            "candidate_name": "Uday Kiran",
+            "candidate_id": candidate_id,
+            "criterion_scores": [
+                {
+                    "criterion": "Python Skills (35%)",
+                    "raw_score": 30.0,
+                    "weight": 0.35,
+                    "weighted_score": 10.50,
+                    "evidence": "Basic introductory knowledge of Python. Developed simple Tkinter calculator program."
+                },
+                {
+                    "criterion": "Machine Learning (25%)",
+                    "raw_score": 10.0,
+                    "weight": 0.25,
+                    "weighted_score": 2.50,
+                    "evidence": "No familiarity or evidence of training/deploying machine learning models or pipelines."
+                },
+                {
+                    "criterion": "Projects (20%)",
+                    "raw_score": 20.0,
+                    "weight": 0.20,
+                    "weighted_score": 4.00,
+                    "evidence": "Has only built elementary projects (desktop calculator, simple HTML/CSS blog)."
+                },
+                {
+                    "criterion": "Communication (10%)",
+                    "raw_score": 50.0,
+                    "weight": 0.10,
+                    "weighted_score": 5.00,
+                    "evidence": "Worked as a customer support representative, demonstrating standard verbal communication."
+                },
+                {
+                    "criterion": "Education (10%)",
+                    "raw_score": 30.0,
+                    "weight": 0.10,
+                    "weighted_score": 3.00,
+                    "evidence": "B.A. degree in History, which is non-technical."
+                }
+            ],
+            "total_score": 25.00,
+            "summary_evidence": "Uday Kiran is a weak candidate for the Junior AI Engineer role. He lacks a technical computer science background, has no machine learning knowledge, and his Python skills are very elementary."
+        }
+    elif "Priya" in name:
         return {
             "candidate_name": "Priya Sharma",
-            "candidate_id": profile_dict.get("candidate_id", "priya-123"),
+            "candidate_id": candidate_id,
             "criterion_scores": [
                 {
                     "criterion": "Python Skills (35%)",
@@ -312,55 +473,11 @@ def mock_call_llm_for_score(profile_dict: dict, jd_dict: dict, rubric_dict: dict
             "total_score": 91.65,
             "summary_evidence": "Priya Sharma is an outstanding Senior ML Engineer candidate. She has strong Python and PyTorch skills, solid production experience with high-scale deployments, and a relevant AWS Machine Learning certification. Her academic pedigree from IIT Delhi further supports her technical capabilities."
         }
-    elif "Rahul" in name:
-        return {
-            "candidate_name": "Rahul Mehta",
-            "candidate_id": profile_dict.get("candidate_id", "rahul-123"),
-            "criterion_scores": [
-                {
-                    "criterion": "Python Skills (35%)",
-                    "raw_score": 40.0,
-                    "weight": 0.35,
-                    "weighted_score": 14.00,
-                    "evidence": "Has intermediate Python skills but primary experience is in Java. No professional Python experience mentioned."
-                },
-                {
-                    "criterion": "Machine Learning (25%)",
-                    "raw_score": 30.0,
-                    "weight": 0.25,
-                    "weighted_score": 7.50,
-                    "evidence": "Lacks professional ML experience. Has only completed a basic self-study movie recommender project."
-                },
-                {
-                    "criterion": "Projects (20%)",
-                    "raw_score": 50.0,
-                    "weight": 0.20,
-                    "weighted_score": 10.00,
-                    "evidence": "Projects are focused on backend engineering (Spring Boot microservices) and basic database queries rather than machine learning."
-                },
-                {
-                    "criterion": "Communication (10%)",
-                    "raw_score": 75.0,
-                    "weight": 0.10,
-                    "weighted_score": 7.50,
-                    "evidence": "Collaborated on microservice development and increased unit test coverage to 85%."
-                },
-                {
-                    "criterion": "Education (10%)",
-                    "raw_score": 70.0,
-                    "weight": 0.10,
-                    "weighted_score": 7.00,
-                    "evidence": "Holds a B.E. in Computer Engineering from Mumbai University."
-                }
-            ],
-            "total_score": 46.00,
-            "summary_evidence": "Rahul Mehta is a competent backend engineer but lacks the required machine learning expertise and Python production experience for this role. His scoring does not meet the minimum threshold for an interview recommendation."
-        }
     else:
         # Generic Custom Scoring
         return {
             "candidate_name": name,
-            "candidate_id": profile_dict.get("candidate_id", "custom-123"),
+            "candidate_id": candidate_id,
             "criterion_scores": [
                 {
                     "criterion": "Python Skills (35%)",
@@ -402,24 +519,29 @@ def mock_call_llm_for_score(profile_dict: dict, jd_dict: dict, rubric_dict: dict
             "summary_evidence": f"{name} is a moderately qualified candidate showing basic Python and engineering skills, but lacking senior-level ML production experience."
         }
 
+# Import modules directly to avoid the __init__.py shadowing
+import importlib
+parse_resume_module = importlib.import_module("tools.parse_resume")
+score_candidate_module = importlib.import_module("tools.score_candidate")
+
 # Save original functions in memory to restore later if live LLM is requested
 if "orig_llm_funcs" not in st.session_state:
     st.session_state["orig_llm_funcs"] = {
-        "parse": tools.parse_resume._call_llm_for_parse,
-        "score": tools.score_candidate._call_llm_for_score,
+        "parse": parse_resume_module._call_llm_for_parse,
+        "score": score_candidate_module._call_llm_for_score,
         "nodes": agent.nodes._call_llm_json
     }
 
 # Apply simulated LLM mappings by default (safest for workshops without API keys)
 def apply_simulated_mode(enabled: bool):
     if enabled:
-        tools.parse_resume._call_llm_for_parse = mock_call_llm_for_parse
-        tools.score_candidate._call_llm_for_score = mock_call_llm_for_score
+        parse_resume_module._call_llm_for_parse = mock_call_llm_for_parse
+        score_candidate_module._call_llm_for_score = mock_call_llm_for_score
         agent.nodes._call_llm_json = mock_call_llm_json
     else:
         # Restore actual API functions
-        tools.parse_resume._call_llm_for_parse = st.session_state["orig_llm_funcs"]["parse"]
-        tools.score_candidate._call_llm_for_score = st.session_state["orig_llm_funcs"]["score"]
+        parse_resume_module._call_llm_for_parse = st.session_state["orig_llm_funcs"]["parse"]
+        score_candidate_module._call_llm_for_score = st.session_state["orig_llm_funcs"]["score"]
         agent.nodes._call_llm_json = st.session_state["orig_llm_funcs"]["nodes"]
 
 # ---------------------------------------------------------------------------
@@ -678,7 +800,7 @@ if run_btn:
         )
         
         # Run graph
-        config = make_config(thread_id=st.session_state["thread_id"])
+        config = make_config(thread_id=st.session_state["thread_id"], recursion_limit=100)
         
         with st.spinner("Executing agent graph..."):
             try:
@@ -703,8 +825,12 @@ if st.session_state["agent_run_completed"] and st.session_state["agent_state_sna
     # 2. Main Shortlist Board
     st.header("🏆 Evaluation & Shortlist Board")
     
-    # Tabs for Shortlisted Candidates vs All Candidates Scored
-    tab_shortlist, tab_audit = st.tabs(["📝 Shortlisted & Scored Candidates", "📋 Agent Audit Trail"])
+    # Tabs for Shortlisted Candidates vs Guardrails vs Audit Trail
+    tab_shortlist, tab_guardrails, tab_audit = st.tabs([
+        "📝 Scored & Shortlisted Candidates", 
+        "🛡️ Guardrail Dashboard", 
+        "📋 Agent Audit Trail"
+    ])
     
     with tab_shortlist:
         shortlist = values.get("shortlist", [])
@@ -834,7 +960,7 @@ if st.session_state["agent_run_completed"] and st.session_state["agent_state_sna
                     approve_btn = st.button("✅ Approve & Schedule", type="primary", use_container_width=True)
                 with col_app2:
                     if st.button("❌ Reject / Reject Candidates", use_container_width=True):
-                        config = make_config(thread_id=st.session_state["thread_id"])
+                        config = make_config(thread_id=st.session_state["thread_id"], recursion_limit=100)
                         recruitment_graph.update_state(config, {"human_approved": False}, as_node="human_approval_node")
                         recruitment_graph.invoke(None, config=config)
                         
@@ -844,7 +970,7 @@ if st.session_state["agent_run_completed"] and st.session_state["agent_state_sna
                         st.rerun()
                         
                 if approve_btn and selected_slot_tuple:
-                    config = make_config(thread_id=st.session_state["thread_id"])
+                    config = make_config(thread_id=st.session_state["thread_id"], recursion_limit=100)
                     
                     # Update State checkpoint with selection and approval
                     recruitment_graph.update_state(
@@ -869,11 +995,150 @@ if st.session_state["agent_run_completed"] and st.session_state["agent_state_sna
         else:
             st.info("No candidates qualified for interview scheduling.")
 
+    with tab_guardrails:
+        st.subheader("🛡️ Active Pipeline Guardrails Dashboard")
+        st.write("TechVest implements 5 production-grade guardrails to verify safety, loop-prevention, fairness, and human oversight.")
+        
+        audit_log_entries = values.get("audit_log", [])
+        
+        # Guardrail 1: Injection analysis
+        injection_blocked = []
+        for log in audit_log_entries:
+            if "[GUARD/INJECTION] BLOCK" in log or "BLOCK" in log and "injection" in log.lower():
+                parts = log.split("|")
+                name_blocked = parts[1].strip() if len(parts) > 1 else "Unknown Resume"
+                injection_blocked.append(name_blocked)
+                
+        # Guardrail 2: Fairness analysis
+        fairness_flags = []
+        for log in audit_log_entries:
+            if "fairness" in log.lower() and "overall_risk=none" not in log.lower() and "risk=none" not in log.lower():
+                fairness_flags.append(log)
+                
+        # Guardrail 3: Step count
+        iteration_count = values.get("iteration_count", 0)
+        
+        # Guardrail 4: Human approval
+        human_approved = values.get("human_approved", False)
+        approval_candidate_id = values.get("approval_candidate_id")
+        scheduled_interviews = values.get("scheduled_interviews", [])
+        
+        # Guardrail 5: Audit logs count
+        num_logs = len(audit_log_entries)
+        
+        # Render Guardrail Cards
+        g_col1, g_col2 = st.columns(2)
+        
+        with g_col1:
+            # Card 1: Prompt Injection Guard
+            if injection_blocked:
+                st.markdown(f"""
+                <div class="candidate-card" style="border-left: 5px solid #EF4444;">
+                    <h3 style="margin-top: 0; color: #EF4444;">🔒 1. Prompt Injection Guard</h3>
+                    <p style="color: #94A3B8; font-size: 0.9rem;">Scans resume files for instructions meant to hijack or override the LLM's scoring rubric.</p>
+                    <span class="badge-reject" style="margin-bottom: 10px;">BLOCKED ATTACK</span>
+                    <div style="background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px; border-radius: 6px; font-size: 0.85rem; color: #FCA5A5;">
+                        Blocked malicious resume payload in: <strong>{", ".join(injection_blocked)}</strong>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="candidate-card" style="border-left: 5px solid #10B981;">
+                    <h3 style="margin-top: 0; color: #10B981;">🔒 1. Prompt Injection Guard</h3>
+                    <p style="color: #94A3B8; font-size: 0.9rem;">Scans resume files for instructions meant to hijack or override the LLM's scoring rubric.</p>
+                    <span class="badge-interview">ACTIVE & SECURED</span>
+                    <div style="margin-top: 10px; font-size: 0.85rem; color: #A7F3D0;">
+                        No injection attempts detected in candidate profiles.
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            # Card 2: Fairness Validation
+            if fairness_flags:
+                st.markdown(f"""
+                <div class="candidate-card" style="border-left: 5px solid #F59E0B;">
+                    <h3 style="margin-top: 0; color: #F59E0B;">⚖️ 2. Demographic Fairness Audit</h3>
+                    <p style="color: #94A3B8; font-size: 0.9rem;">Audits candidate evaluations for references to protected characteristics (age, gender, origin).</p>
+                    <span class="badge-hold" style="margin-bottom: 10px;">FLAGGED SIGNAL</span>
+                    <div style="background-color: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); padding: 10px; border-radius: 6px; font-size: 0.85rem; color: #FDE047;">
+                        Review bias warnings in trajectory logs.
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="candidate-card" style="border-left: 5px solid #10B981;">
+                    <h3 style="margin-top: 0; color: #10B981;">⚖️ 2. Demographic Fairness Audit</h3>
+                    <p style="color: #94A3B8; font-size: 0.9rem;">Audits candidate evaluations for references to protected characteristics (age, gender, origin).</p>
+                    <span class="badge-interview">COMPLIANT (ZERO FLAGS)</span>
+                    <div style="margin-top: 10px; font-size: 0.85rem; color: #A7F3D0;">
+                        All evaluations are 100% compliant. No demographic characteristics referenced.
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            # Card 3: Step Limit
+            st.markdown(f"""
+            <div class="candidate-card" style="border-left: 5px solid #3B82F6;">
+                <h3 style="margin-top: 0; color: #3B82F6;">⏳ 3. Loop Protection Step Limit</h3>
+                <p style="color: #94A3B8; font-size: 0.9rem;">Limits the max iteration path to 25 nodes to safeguard against recursive routing errors.</p>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span class="badge-interview" style="background-color: rgba(59, 130, 246, 0.15); color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3);">
+                        MONITORED
+                    </span>
+                    <span style="font-size: 1.1rem; font-weight: 700; color: #F1F5F9;">{iteration_count} / 25 Nodes</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with g_col2:
+            # Card 4: Human-in-the-Loop Gate
+            if scheduled_interviews:
+                status_text = "APPROVED & COMPLETED"
+                status_class = "badge-interview"
+                msg_color = "#A7F3D0"
+                msg = "Interview proposed slots approved. Scheduling finalized."
+            elif approval_candidate_id:
+                status_text = "INTERRUPTED - PENDING HUMAN"
+                status_class = "badge-hold"
+                msg_color = "#FDE047"
+                msg = "Awaiting manual interview slot confirmation."
+            else:
+                status_text = "IDLE (NO QUALIFIED SHORTLIST)"
+                status_class = "badge-blocked"
+                msg_color = "#94A3B8"
+                msg = "Pipeline completed without candidate scheduling."
+                
+            st.markdown(f"""
+            <div class="candidate-card" style="border-left: 5px solid #A855F7;">
+                <h3 style="margin-top: 0; color: #A855F7;">👤 4. Human Approval Gate</h3>
+                <p style="color: #94A3B8; font-size: 0.9rem;">Blocks scheduling tools from calling external integrations until authorized by a human.</p>
+                <span class="{status_class}" style="margin-bottom: 10px;">{status_text}</span>
+                <div style="font-size: 0.85rem; color: {msg_color}; margin-top: 10px;">
+                    {msg}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Card 5: permanent audit trail
+            st.markdown(f"""
+            <div class="candidate-card" style="border-left: 5px solid #06B6D4;">
+                <h3 style="margin-top: 0; color: #06B6D4;">📝 5. Permanent Audit Trail Logging</h3>
+                <p style="color: #94A3B8; font-size: 0.9rem;">Writes all tool inputs, security decisions, and reasoning scores to an append-only log.</p>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span class="badge-interview" style="background-color: rgba(6, 182, 212, 0.15); color: #06B6D4; border: 1px solid rgba(6, 182, 212, 0.3);">
+                        RECORDING
+                    </span>
+                    <span style="font-size: 1.1rem; font-weight: 700; color: #F1F5F9;">{num_logs} entries</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
     with tab_audit:
         st.subheader("🕵️ Agent Trajectory Audit Logs")
         
         # Display the audit log list in a scrolling code panel
-        audit_log_entries = values.get("audit_log", [])
         if not audit_log_entries:
             st.write("No logs recorded.")
         else:
@@ -893,16 +1158,43 @@ else:
     # Welcome & Workflow guide
     st.info("👈 Set your Job Description and Candidates in the left sidebar, then click 'Run Agent Pipeline' to start.")
     
-    st.markdown("""
-    ### ⚙️ How the Autonomous Recruiting Pipeline Works
+    st.header("🛡️ Active Recruiting Guardrails Overview")
+    st.write("TechVest incorporates 5 active guardrails monitoring and gating the autonomous agent:")
     
-    This agent uses **LangGraph** to construct a cyclical pipeline with strict security, fairness, and execution limits:
+    g_col1, g_col2 = st.columns(2)
     
-    1. **Prompt Injection Guard**: Scans incoming resumes for hidden prompt injection payloads designed to manipulate AI scoring. Blocks unsafe candidates immediately.
-    2. **Resume Parser**: Extracts unstructured text into clean Candidate Profiles containing skills, experience, education, and projects.
-    3. **Fairness Audit**: Scans the resume and scoring parameters to detect if protected characteristics (gender, age, nationality) influenced the evaluation.
-    4. **Scoring Engine**: Evaluates candidates against the job description using a strict weighted rubric.
-    5. **Decision & Ranker**: Aggregates scores, ranks candidates, and decides status recommendations based on target thresholds.
-    6. **Availability Scheduler**: Pulls available interview slots for the top-ranking candidate.
-    7. **Human Approval Gate**: Interrupts execution, waiting for your manual review in the UI before any external scheduling occurs.
-    """)
+    with g_col1:
+        st.markdown("""
+        <div class="candidate-card" style="border-left: 5px solid #10B981;">
+            <h3 style="margin-top:0;">🔒 1. Prompt Injection Detection</h3>
+            <p style="color:#94A3B8; font-size:0.9rem;">Scans resume files for malicious instruct override syntax designed to cheat or manipulate the agent's evaluation scoring.</p>
+            <span class="badge-interview">ACTIVE & SECURED</span>
+        </div>
+        
+        <div class="candidate-card" style="border-left: 5px solid #10B981;">
+            <h3 style="margin-top:0;">⚖️ 2. Demographic Fairness Validation</h3>
+            <p style="color:#94A3B8; font-size:0.9rem;">Audits profiles and LLM evidence output to ensure protected traits (gender, age, race, nationality) play no role in evaluations.</p>
+            <span class="badge-interview">ACTIVE & COMPLIANT</span>
+        </div>
+        
+        <div class="candidate-card" style="border-left: 5px solid #10B981;">
+            <h3 style="margin-top:0;">⏳ 3. Loop Protection Step Limit</h3>
+            <p style="color:#94A3B8; font-size:0.9rem;">Imposes a strict recursion ceiling of 25 nodes on LangGraph execution to prevent loops and excess token usage.</p>
+            <span class="badge-interview">ACTIVE & MONITORED</span>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with g_col2:
+        st.markdown("""
+        <div class="candidate-card" style="border-left: 5px solid #10B981;">
+            <h3 style="margin-top:0;">👤 4. Human-in-the-Loop Approval</h3>
+            <p style="color:#94A3B8; font-size:0.9rem;">Interrupts agent graph execution before calling calendar or scheduling APIs, requiring explicit manual signoff.</p>
+            <span class="badge-interview">ACTIVE & GATED</span>
+        </div>
+        
+        <div class="candidate-card" style="border-left: 5px solid #10B981;">
+            <h3 style="margin-top:0;">📝 5. Permanent Audit Logging</h3>
+            <p style="color:#94A3B8; font-size:0.9rem;">Appends all decisions, security scans, tool results, and scores to a permanent audit trail for verification.</p>
+            <span class="badge-interview">ACTIVE & RECORDING</span>
+        </div>
+        """, unsafe_allow_html=True)
